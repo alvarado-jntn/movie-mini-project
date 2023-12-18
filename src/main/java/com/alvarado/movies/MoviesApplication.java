@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class MoviesApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MoviesApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MoviesApplication.class, args);
+    }
 
-	@GetMapping("/")
-	public String apiRoot(){
-		return "Hello World!";
-	}
+    @GetMapping("/root")
+    public String apiRoot() {
+        return "Hello World!";
+    }
 
 }
