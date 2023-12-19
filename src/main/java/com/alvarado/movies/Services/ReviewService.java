@@ -14,13 +14,14 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
     private MongoTemplate mongoTemplate; //This is another way to communicate with the database.
 
-    public Review createReview(String reviewBody, String imbdId){
+    public Review createReview(String reviewBody, String imdbId){
         Review review = reviewRepository.insert(new Review(reviewBody));
 
         mongoTemplate.update(Movie.class)
-                .matching(Criteria.where("imbdId").is(imbdId))
+                .matching(Criteria.where("imdbId").is(imdbId))
                 .apply(new Update().push("reviewIds").value(review))
                 .first();
 
