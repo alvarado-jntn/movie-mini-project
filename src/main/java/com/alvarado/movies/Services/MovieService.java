@@ -18,7 +18,7 @@ public class MovieService {
         return movieRepository.findAll(); //This is described inside the Mongo repository class.
     }
 
-    public Optional<Movie> singleMovie(ObjectId id) {
-        return movieRepository.findById(id);
+    public Optional<Movie> singleMovie(String imdbId) {
+        return movieRepository.findMovieByImdbId(imdbId);
     }
 }
