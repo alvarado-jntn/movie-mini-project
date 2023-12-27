@@ -2,7 +2,8 @@ import React from 'react';
 import { useEffect, useRef } from 'react';
 import api from '../../api/axiosConfig';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from '../reviewForm/ReviewForm';
+import { Container, Row, Col } from 'react-bootstrap';
+import ReviewForm from '../reviewForm/ReviewForm';
 
 const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
 
@@ -12,7 +13,33 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
 
     useEffect(() => {
         getMovieData(movieId);
+        // console.log("LOGGING getMovieData(movieId): "+ getMovieData(movieId));
+        // console.log("LOG reviews:" + reviews);
     }, [])
+
+    const addReview = async (e) => {
+        e.preventDefault();
+
+        const rev = revText.current;
+
+        try {
+            const response = await api.post("/api/v1/reviews", { reviewBody: rev.value, imdbId: movieId });
+            // console.log("logging response:"+ response);
+            // console.log("LOGGING REVIEWS::"+ reviews);
+
+            const updatedReviews = [...reviews, { body: rev.value }];
+
+            rev.value = "";
+
+            setReviews(updatedReviews);
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+    }
+
     return (
         <Container>
             <Row>
@@ -26,12 +53,43 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
                     {
                         <>
                             <Row>
-                                <Col></Col>
+                                <Col>
+                                    <ReviewForm handleSubmit={addReview} revText={revText} labelText="Write a Review?" />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <hr />
+                                </Col>
                             </Row>
                         </>
                     }
+                    {
+                        reviews?.map((r) => {
+                            return (
+                                <>
+                                    <Row>
+                                        <Col>{r.body}</Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <hr />
+                                        </Col>
+                                    </Row>
+                                </>
+                            )
+
+                        })
+                    }
                 </Col>
             </Row>
+
+            <Row>
+                <Col>
+                    <hr />
+                </Col>
+            </Row>
+
         </Container>
     )
 }
