@@ -10,12 +10,11 @@ const Trailer = () => {
 
     return (
         <div className='react-player-container'>
-            <div>
-                {(key != null) ?
-                    <ReactPlayer controls="true" playing={true} url={`https://www.youtube.com/watch?v=${key}`} />
-                    : null
-                }
-            </div>
+
+            {(key != null) ?
+                <ReactPlayer controls="true" playing={true} url={`https://www.youtube.com/watch?v=${key}`} />
+                : null
+            }
         </div>
     )
 }
